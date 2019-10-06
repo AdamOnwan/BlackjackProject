@@ -32,38 +32,45 @@ public class BlackjackApp {
 		while (keepGoing) {
 			if (player.getHandValue() == 21 || dealer.getHandValue() == 21) {
 				keepGoing = false;
-			}
+				System.out.println("Player has " + player.toString());
+				System.out.println("Dealer has " + dealer.toString());
+			} else if (player.getHandValue() != 21 || dealer.getHandValue() != 21) {
 
-			System.out.println("What do you want to do");
-			System.out.println("(1) check stats ");
-			System.out.println("(2) hit  ");
-			System.out.println("(3) stay ");
-			System.out.println("(4) quit game ");
-			input = kb.nextInt();
-			switch (input) {
-			case 1:
-				System.out.println("Deck size: " + deck.checkDeckSize());
-				System.out.println("Player's cards " + playerHand.toString());
-				System.out.println("Dealer's cards " + dealerHand.get(1) + " and a face down card");
-				break;
-			case 2:
-				playerHand.add(deck.dealCard());
-				System.out.println("Player draws and " + player.toString());
-				if (player.getHandValue() > 20 || playerHand.size() > 4) {
+				System.out.println("What do you want to do");
+				System.out.println("(1) check stats ");
+				System.out.println("(2) hit  ");
+				System.out.println("(3) stay ");
+				System.out.println("(4) quit game ");
+				input = kb.nextInt();
+				switch (input) {
+				case 1:
+					System.out.println("Deck size: " + deck.checkDeckSize());
+					System.out.println("Player's cards " + playerHand.toString());
+					System.out.println("Dealer's cards " + dealerHand.get(1) + " and a face down card");
+					break;
+				case 2:
+					playerHand.add(deck.dealCard());
+					System.out.println("Player draws and " + player.toString());
+					if (player.getHandValue() > 20 || playerHand.size() > 4) {
+						keepGoing = false;
+					}
+					break;
+				case 3:
+					if (dealer.getHandValue() > 16) {
+						keepGoing = false;
+					} else if (dealer.getHandValue() < 17) {
+						do {
+							dealerHand.add(deck.dealCard());
+							System.out.println("Dealer draws and " + dealer.toString());
+						} while ((dealer.getHandValue() < 17) || (dealer.getHandValue() < 17 && dealerHand.size() < 5));
+						keepGoing = false;
+					}
+					break;
+
+				default:
 					keepGoing = false;
+					break;
 				}
-				break;
-			case 3:
-				do {
-					dealerHand.add(deck.dealCard());
-					System.out.println("Dealer draws and " + dealer.toString());
-				} while ((dealer.getHandValue() < 17) || (dealer.getHandValue() < 17 && dealerHand.size() < 5));
-				keepGoing = false;
-				break;
-
-			default:
-				keepGoing = false;
-				break;
 			}
 		}
 		checkWin();
@@ -80,14 +87,16 @@ public class BlackjackApp {
 	public void checkWin() {
 		System.out.println(
 				"Player's hand value: " + player.getHandValue() + " Dealer's hand value: " + dealer.getHandValue());
-		if (dealer.getHandValue() > 21 && player.getHandValue() < 22) {
+		if (player.getHandValue() < 22 && dealer.getHandValue() > 21) {
 			System.out.println("Player wins! Dealer BUST");
 		} else if (player.getHandValue() > dealer.getHandValue() && player.getHandValue() < 22) {
 			System.out.println("Player wins!");
 		} else if (player.getHandValue() > 21) {
 			System.out.println("Player BUST, you DID NOT win");
-		} else
+		} else if (player.getHandValue() < dealer.getHandValue() && dealer.getHandValue() < 22) {
+			System.out.println("Player's hand " + playerHand.toString() + "\ndealer's hand " + dealerHand.toString());
 			System.out.println("Player DID NOT win");
+		}
 	}
 
 	public void blackJackStart() {

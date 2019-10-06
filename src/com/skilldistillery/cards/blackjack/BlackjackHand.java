@@ -20,7 +20,6 @@ public class BlackjackHand extends Hand {
 			handValue += card.getValue();
 //			handValue -= lastCards;
 //			lastCards = card.getValue();
-		
 		}
 		return handValue;
 	}
@@ -29,6 +28,7 @@ public class BlackjackHand extends Hand {
 		boolean blackjack = false;
 		if (getHandValue() == 21 && hand.size() == 2) {
 			blackjack = true;
+			System.out.println( hand + "***BLACKJACK***");
 		}
 		return blackjack;
 	}
@@ -37,6 +37,8 @@ public class BlackjackHand extends Hand {
 		boolean bust = false;
 		if (getHandValue() > 21) {
 			bust = true;
+			System.out.println("***BUST***");
+			System.out.println("No soft ACE's... yet");
 		}
 		return bust;
 	}
@@ -44,6 +46,8 @@ public class BlackjackHand extends Hand {
 	@Override
 	public String toString() {
 		
+		isBlackjack();
+		isBust();
 		return " hand is: " + hand + " value: " + getHandValue();
 	}
 
