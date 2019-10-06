@@ -38,7 +38,6 @@ public class BlackjackHand extends Hand {
 		if (getHandValue() > 21) {
 			bust = true;
 			System.out.println("***BUST***");
-			System.out.println("No soft ACE's... yet");
 		}
 		return bust;
 	}

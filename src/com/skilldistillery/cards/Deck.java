@@ -28,4 +28,12 @@ public class Deck {
 	public void shuffle() {
 		Collections.shuffle(cards);
 	}
+	public void deckReset() {
+		cards = new ArrayList<>();
+		for (Suit suit : Suit.values()) {
+			for (Rank rank : Rank.values()) {
+				cards.add(new Card(suit, rank));
+			}
+		}
+	}
 }
