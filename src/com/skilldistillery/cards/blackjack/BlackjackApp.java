@@ -19,77 +19,90 @@ public class BlackjackApp {
 	}
 
 	public void launch() {
+		System.out.println("You see a fresh desk being shuffled by a dealer at a Blackjack table");
+		deck.shuffle();
 		blackjackGame();
 	}
 
 	public void blackjackGame() {
 		boolean keepGoing = true;
 		int input;
-		System.out.println(deck.checkDeckSize());
-		deck.shuffle();
-		blackJackStart();
-
-		while (keepGoing) {
-			if (player.getHandValue() == 21 || dealer.getHandValue() == 21) {
-				keepGoing = false;
-				System.out.println("Player has " + player.toString());
-				System.out.println("Dealer has " + dealer.toString());
-			} else if (player.getHandValue() != 21 || dealer.getHandValue() != 21) {
-
-				System.out.println("What do you want to do");
-				System.out.println("(1) check cards ");
-				System.out.println("(2) hit  ");
-				System.out.println("(3) stay ");
-				System.out.println("(4) quit ");
-				input = kb.nextInt();
-				switch (input) {
-				case 1:
-					System.out.println("Deck size: " + deck.checkDeckSize());
-					System.out.println("Player's cards " + playerHand.toString());
-					System.out.println("Dealer's cards " + dealerHand.get(1) + " and a face down card");
-					break;
-				case 2:
-					playerHand.add(deck.dealCard());
-					System.out.println("Player draws and" + player.toString());
-					if (player.getHandValue() > 20 || playerHand.size() > 4) {
-						keepGoing = false;
-					}
-					break;
-				case 3:
-					if (dealer.getHandValue() > 16) {
-						keepGoing = false;
-					} else if (dealer.getHandValue() < 17) {
-						do {
-							dealerHand.add(deck.dealCard());
-							System.out.println("Dealer draws and" + dealer.toString());
-						} while ((dealer.getHandValue() < 17) || (dealer.getHandValue() < 17 && dealerHand.size() < 5));
-						keepGoing = false;
-					}
-					break;
-
-				default:
-					System.out.println("dealer messes with you, letting you know whose 2 cards is better");
-					keepGoing = false;
-					break;
-				}
-			}
-		}
-		checkWin();
-		System.out.println("Press 1 to play again, press 2 to play with fresh deck of cards, or any other number to quit");
+		System.out.println("Dealer says \"Do you want to play some Blackjack?\" (1) yes (2) no");
 		input = kb.nextInt();
 		if (input == 1) {
-			playerHand.clear();
-			dealerHand.clear();
-			blackjackGame();
+			System.out.println(deck.checkDeckSize());
+			blackJackStart();
+
+			while (keepGoing) {
+				if (player.getHandValue() == 21 || dealer.getHandValue() == 21) {
+					keepGoing = false;
+					System.out.println("Player has " + player.toString());
+					System.out.println("Dealer has " + dealer.toString());
+				} else if (player.getHandValue() != 21 || dealer.getHandValue() != 21) {
+
+					System.out.println("What do you want to do");
+					System.out.println("(1) check cards ");
+					System.out.println("(2) hit  ");
+					System.out.println("(3) stay ");
+					System.out.println("(4) quit ");
+					input = kb.nextInt();
+					switch (input) {
+					case 1:
+						System.out.println("Deck size: " + deck.checkDeckSize());
+						System.out.println("Player's cards " + playerHand.toString());
+						System.out.println("Dealer's cards " + dealerHand.get(1) + " and a face down card");
+						break;
+					case 2:
+						playerHand.add(deck.dealCard());
+						System.out.println("Player draws and" + player.toString());
+						if (player.getHandValue() > 20 || playerHand.size() > 4) {
+							keepGoing = false;
+						}
+						break;
+					case 3:
+						if (dealer.getHandValue() > 16) {
+							keepGoing = false;
+						} else if (dealer.getHandValue() < 17) {
+							do {
+								dealerHand.add(deck.dealCard());
+								System.out.println("Dealer draws and" + dealer.toString());
+							} while ((dealer.getHandValue() < 17)
+									|| (dealer.getHandValue() < 17 && dealerHand.size() < 5));
+							keepGoing = false;
+						}
+						break;
+
+					default:
+						System.out.println("Dealer messes with you, letting you know whose 2 cards is better");
+						keepGoing = false;
+						break;
+					}
+				}
+			}
+
+			checkWin();
+			System.out.println(
+					"(1) Ask to play again, (2) Ask to play with fresh deck of cards, (3) Sneak peak at current deck and play again, or any other number to quit");
+			input = kb.nextInt();
+			if (input == 1) {
+				playerHand.clear();
+				dealerHand.clear();
+				blackjackGame();
+			} else if (input == 2) {
+				playerHand.clear();
+				dealerHand.clear();
+				deck.deckReset();
+				blackjackGame();
+			} else if (input == 3) {
+				playerHand.clear();
+				dealerHand.clear();
+				deck.inspectCards();
+				blackjackGame();
+			} else
+				System.out.println("Dealer says \"Bye\"");
 		}
-		else if (input == 2) {
-			playerHand.clear();
-			dealerHand.clear();
-			deck.deckReset();;
-			blackjackGame();
-		}
-			else
-			System.out.println("Bye");
+		else 
+			System.out.println("Dealer says \"Bye\"");
 	}
 
 	public void checkWin() {

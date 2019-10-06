@@ -36,4 +36,9 @@ public class Deck {
 			}
 		}
 	}
+	public void inspectCards() {
+		for (Card card : cards) {
+			System.out.println(card.toString());
+		}
+	}
 }
