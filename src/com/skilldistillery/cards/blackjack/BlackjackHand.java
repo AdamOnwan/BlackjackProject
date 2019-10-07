@@ -28,7 +28,7 @@ public class BlackjackHand extends Hand {
 		boolean blackjack = false;
 		if (getHandValue() == 21 && hand.size() == 2) {
 			blackjack = true;
-			System.out.println( hand + "***BLACKJACK***");
+			System.out.println( hand + "\n***BLACKJACK***");
 		}
 		return blackjack;
 	}
@@ -37,16 +37,20 @@ public class BlackjackHand extends Hand {
 		boolean bust = false;
 		if (getHandValue() > 21) {
 			bust = true;
-			System.out.println("***BUST***");
+			System.out.println("\n***BUST***");
 		}
 		return bust;
 	}
 
 	@Override
 	public String toString() {
-		
-		isBlackjack();
-		isBust();
+		if (isBlackjack()) {
+			return " hand is: " + hand + " value: " + getHandValue() + "\n***BLACKJACK***";
+		}
+		else if (isBust()) {
+			return " hand is: " + hand + " value: " + getHandValue() + "\n***BUST***";
+		}
+		else 
 		return " hand is: " + hand + " value: " + getHandValue();
 	}
 
